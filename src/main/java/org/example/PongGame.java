@@ -13,6 +13,7 @@ public class PongGame extends JPanel {
     private Paddle paddle2;
     private Ball ball;
 
+
     public PongGame() {
         paddle1 = new Paddle(20, 250);
         paddle2 = new Paddle(760, 250);
@@ -22,14 +23,28 @@ public class PongGame extends JPanel {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_W) {
-                    paddle1.moveUp();
+                    paddle1.keyPressed(e.getKeyCode());
                 } else if (e.getKeyCode() == KeyEvent.VK_S) {
-                    paddle1.moveDown();
+                    paddle1.keyPressed(e.getKeyCode());
                 } else if (e.getKeyCode() == KeyEvent.VK_UP) {
-                    paddle2.moveUp();
+                    paddle2.keyPressed(e.getKeyCode());
                 } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                    paddle2.moveDown();
+                    paddle2.keyPressed(e.getKeyCode());
                 }
+                repaint();
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_W) {
+                    paddle1.keyReleased(e.getKeyCode());
+                } else if (e.getKeyCode() == KeyEvent.VK_S) {
+                    paddle1.keyReleased(e.getKeyCode());
+                } else if (e.getKeyCode() == KeyEvent.VK_UP) {
+                    paddle2.keyReleased(e.getKeyCode());
+                } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                    paddle2.keyReleased(e.getKeyCode());
+                }
+                repaint();
             }
         });
 
@@ -37,8 +52,10 @@ public class PongGame extends JPanel {
         requestFocusInWindow();
 
         Timer timer = new Timer(10, new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
+                paddle1.update();
+                paddle2.update();
+
                 ball.move();
                 ball.checkPaddleCollision(paddle1);
                 ball.checkPaddleCollision(paddle2);
