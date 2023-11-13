@@ -2,8 +2,6 @@ package org.example;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -12,11 +10,12 @@ public class PongGame extends JPanel {
     private Paddle paddleLeft;
     private Paddle paddleRight;
     private Ball ball;
-
+    private int playerLeftScore = 0;
+    private int playerRightScore = 0;
 
     public PongGame() {
 
-        paddleLeft = new Paddle(13, 240);
+        paddleLeft = new Paddle(14, 240);
         paddleRight = new Paddle(760, 240);
         ball = new Ball(400, 300);
 
@@ -57,12 +56,32 @@ public class PongGame extends JPanel {
             paddleRight.update();
 
             ball.move();
+            handleBallOffScreen();
             ball.checkPaddleCollision(paddleLeft);
             ball.checkPaddleCollision(paddleRight);
             ball.checkWallCollision(getHeight());
             repaint();
         });
         timer.start();
+    }
+
+    private void handleBallOffScreen() {
+        int ballX = ball.getX();
+        int ballDiameter = ball.getDiameter();
+        int screenWidth = getWidth();
+
+        if(ballX < 0) {
+            playerLeftScore++;
+            resetBall();
+        } else if(ballX > screenWidth - ballDiameter) {
+            playerRightScore++;
+            resetBall();
+        }
+    }
+
+    private void resetBall() {
+        ball.setX(getWidth()/2);
+        ball.setY(getWidth()/2);
     }
 
     @Override
@@ -74,7 +93,8 @@ public class PongGame extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.WHITE);
         g2d.setStroke(new BasicStroke(8.0f));
-        g2d.drawRect(0, 0,  getWidth()-1, getHeight()-1);
+        g2d.drawLine(0,0,getWidth(),0);
+        g2d.drawLine(0,getHeight()-1, getWidth(),getHeight() - 1);
 
         g2d.setStroke(new BasicStroke(3.0f));
         g2d.drawLine(getWidth()/2, 0, getWidth()/2, getHeight());
@@ -82,6 +102,11 @@ public class PongGame extends JPanel {
         paddleLeft.draw(g);
         paddleRight.draw(g);
         ball.draw(g);
+
+        g.setFont(new Font("Monospaced", Font.PLAIN, 50));
+        g.setColor(Color.WHITE);
+        g.drawString(String.valueOf(playerLeftScore),400,45);
+        g.drawString(String.valueOf(playerRightScore),355, 45);
     }
 
     public static void main(String[] args) {
