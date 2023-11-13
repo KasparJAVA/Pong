@@ -23,6 +23,18 @@ public class Ball {
         g.fillOval(x,y,diameter,diameter);
     }
 
+    public void checkPaddleCollision(Paddle paddle) {
+        if(x + diameter > paddle.getX() && x < paddle.getX() + paddle.getWidth() && y + diameter > paddle.getY() && y < paddle.getY() + paddle.getHeight()) {
+            xSpeed = -xSpeed;
+        }
+    }
+
+    public void checkWallCollision(int screenHeight) {
+        if (y <= 0 || y + diameter >= screenHeight) {
+            ySpeed = -ySpeed;
+        }
+    }
+
     public int getX() {
         return x;
     }

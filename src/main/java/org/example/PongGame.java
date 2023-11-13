@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class PongGame extends JPanel {
 
@@ -16,11 +18,33 @@ public class PongGame extends JPanel {
         paddle2 = new Paddle(760, 250);
         ball = new Ball(400, 300);
 
-        Timer timer = new Timer(10, e -> {
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_W) {
+                    paddle1.moveUp();
+                } else if (e.getKeyCode() == KeyEvent.VK_S) {
+                    paddle1.moveDown();
+                } else if (e.getKeyCode() == KeyEvent.VK_UP) {
+                    paddle2.moveUp();
+                } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                    paddle2.moveDown();
+                }
+            }
+        });
 
-            ball.move();
+        setFocusable(true);
+        requestFocusInWindow();
 
-            repaint();
+        Timer timer = new Timer(10, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ball.move();
+                ball.checkPaddleCollision(paddle1);
+                ball.checkPaddleCollision(paddle2);
+                ball.checkWallCollision(getHeight());
+                repaint();
+            }
         });
         timer.start();
     }
