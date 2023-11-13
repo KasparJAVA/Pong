@@ -9,40 +9,41 @@ import java.awt.event.KeyEvent;
 
 public class PongGame extends JPanel {
 
-    private Paddle paddle1;
-    private Paddle paddle2;
+    private Paddle paddleLeft;
+    private Paddle paddleRight;
     private Ball ball;
 
 
     public PongGame() {
-        paddle1 = new Paddle(20, 250);
-        paddle2 = new Paddle(760, 250);
+
+        paddleLeft = new Paddle(13, 240);
+        paddleRight = new Paddle(760, 240);
         ball = new Ball(400, 300);
 
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_W) {
-                    paddle1.keyPressed(e.getKeyCode());
+                    paddleLeft.keyPressed(e.getKeyCode());
                 } else if (e.getKeyCode() == KeyEvent.VK_S) {
-                    paddle1.keyPressed(e.getKeyCode());
+                    paddleLeft.keyPressed(e.getKeyCode());
                 } else if (e.getKeyCode() == KeyEvent.VK_UP) {
-                    paddle2.keyPressed(e.getKeyCode());
+                    paddleRight.keyPressed(e.getKeyCode());
                 } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                    paddle2.keyPressed(e.getKeyCode());
+                    paddleRight.keyPressed(e.getKeyCode());
                 }
                 repaint();
             }
             @Override
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_W) {
-                    paddle1.keyReleased(e.getKeyCode());
+                    paddleLeft.keyReleased(e.getKeyCode());
                 } else if (e.getKeyCode() == KeyEvent.VK_S) {
-                    paddle1.keyReleased(e.getKeyCode());
+                    paddleLeft.keyReleased(e.getKeyCode());
                 } else if (e.getKeyCode() == KeyEvent.VK_UP) {
-                    paddle2.keyReleased(e.getKeyCode());
+                    paddleRight.keyReleased(e.getKeyCode());
                 } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                    paddle2.keyReleased(e.getKeyCode());
+                    paddleRight.keyReleased(e.getKeyCode());
                 }
                 repaint();
             }
@@ -51,17 +52,15 @@ public class PongGame extends JPanel {
         setFocusable(true);
         requestFocusInWindow();
 
-        Timer timer = new Timer(10, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                paddle1.update();
-                paddle2.update();
+        Timer timer = new Timer(10, e -> {
+            paddleLeft.update();
+            paddleRight.update();
 
-                ball.move();
-                ball.checkPaddleCollision(paddle1);
-                ball.checkPaddleCollision(paddle2);
-                ball.checkWallCollision(getHeight());
-                repaint();
-            }
+            ball.move();
+            ball.checkPaddleCollision(paddleLeft);
+            ball.checkPaddleCollision(paddleRight);
+            ball.checkWallCollision(getHeight());
+            repaint();
         });
         timer.start();
     }
@@ -72,8 +71,16 @@ public class PongGame extends JPanel {
         g.setColor(Color.black);
         g.fillRect(0,0,getWidth(),getHeight());
 
-        paddle1.draw(g);
-        paddle2.draw(g);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(Color.WHITE);
+        g2d.setStroke(new BasicStroke(8.0f));
+        g2d.drawRect(0, 0,  getWidth()-1, getHeight()-1);
+
+        g2d.setStroke(new BasicStroke(3.0f));
+        g2d.drawLine(getWidth()/2, 0, getWidth()/2, getHeight());
+
+        paddleLeft.draw(g);
+        paddleRight.draw(g);
         ball.draw(g);
     }
 

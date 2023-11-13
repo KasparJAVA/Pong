@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class Ball {
     private int x,y;
-    private int diameter = 20;
+    private int diameter = 15;
     private int xSpeed = 2;
     private int ySpeed = 2;
 

@@ -36,14 +36,19 @@ public class Paddle {
         } else if (!keysPressed.contains(KeyEvent.VK_UP) && keysPressed.contains(KeyEvent.VK_DOWN)) {
             moveDown();
         }
+
     }
 
     public void moveUp() {
-        y -= 5;
+        if(y - 5 >= 0) {
+            y -= 5;
+        }
     }
 
     public void moveDown() {
-        y += 5;
+        if(y + height + 5 <= 560) {
+            y += 5;
+        }
     }
 
     public void draw(Graphics g) {
