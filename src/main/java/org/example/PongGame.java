@@ -103,9 +103,9 @@ public class PongGame extends JPanel {
         paddleRight.draw(g);
         ball.draw(g);
 
-        g.setFont(new Font("Monospaced", Font.PLAIN, 50));
+        g.setFont(new Font("Monospaced", Font.PLAIN, 40));
         g.setColor(Color.WHITE);
-        g.drawString(String.valueOf(playerLeftScore),400,45);
+        g.drawString(String.valueOf(playerLeftScore),405,45);
         g.drawString(String.valueOf(playerRightScore),355, 45);
     }
 
