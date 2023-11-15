@@ -39,6 +39,16 @@ public class Paddle {
 
     }
 
+    public void updateForComputer(int ballY) {
+        int paddleCenterY = y + height/2;
+
+        if(ballY < paddleCenterY) {
+            moveUp();
+        } else {
+            moveDown();
+        }
+    }
+
     public void moveUp() {
         if(y - 5 >= 0) {
             y -= 5;
