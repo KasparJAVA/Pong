@@ -6,15 +6,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Paddle {
-    private int x, y;
+    private int paddleXPos, paddleYPos;
     private int width = 10;
     private int height = 80;
-
     private Set<Integer> keysPressed = new HashSet<>();
 
-    public Paddle(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Paddle(int paddleXPos, int paddleYPos) {
+        this.paddleXPos = paddleXPos;
+        this.paddleYPos = paddleYPos;
     }
 
     public void keyPressed (int keyCode) {
@@ -39,10 +38,10 @@ public class Paddle {
 
     }
 
-    public void updateForComputer(int ballY) {
-        int paddleCenterY = y + height/2;
+    public void updateForComputer(Ball ball) {
+        int paddleCenterY = paddleYPos + height/2;
 
-        if(ballY < paddleCenterY) {
+        if(ball.getBallY() < paddleCenterY) {
             moveUp();
         } else {
             moveDown();
@@ -50,28 +49,28 @@ public class Paddle {
     }
 
     public void moveUp() {
-        if(y - 5 >= 0) {
-            y -= 5;
+        if(paddleYPos - 5 >= 0) {
+            paddleYPos -= 5;
         }
     }
 
     public void moveDown() {
-        if(y + height + 5 <= 560) {
-            y += 5;
+        if(paddleYPos + height + 5 <= 560) {
+            paddleYPos += 5;
         }
     }
 
     public void draw(Graphics g) {
         g.setColor(Color.WHITE);
-        g.fillRect(x,y,width,height);
+        g.fillRect(paddleXPos, paddleYPos,width,height);
     }
 
-    public int getX() {
-        return x;
+    public int getPaddleXPos() {
+        return paddleXPos;
     }
 
-    public int getY() {
-        return y;
+    public int getPaddleYPos() {
+        return paddleYPos;
     }
 
     public int getWidth() {

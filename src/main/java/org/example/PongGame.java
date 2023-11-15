@@ -113,13 +113,13 @@ public class PongGame extends JPanel {
     private void updatePvCPaddle() {
         paddleRight.update();
         if(computerPaddle != null) {
-            computerPaddle.updateForComputer(ball.getY());
+            computerPaddle.updateForComputer(ball);
         }
 
     }
 
     private void handleBallOffScreen() {
-        int ballX = ball.getX();
+        int ballX = ball.getBallX();
         int ballDiameter = ball.getDiameter();
         int screenWidth = getWidth();
 
@@ -133,8 +133,8 @@ public class PongGame extends JPanel {
     }
 
     private void resetBall() {
-        ball.setX(getWidth()/2);
-        ball.setY(getWidth()/2);
+        ball.setBallX(getWidth()/2);
+        ball.setBallY(getWidth()/2);
     }
 
     private void startGamePvP() {

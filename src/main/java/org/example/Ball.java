@@ -3,55 +3,55 @@ package org.example;
 import java.awt.*;
 
 public class Ball {
-    private int x,y;
+    private int ballX, ballY;
     private int diameter = 15;
-    private int xSpeed = 2;
-    private int ySpeed = 2;
+    private int xSpeed = 3;
+    private int ySpeed = 3;
 
-    public Ball(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Ball(int ballX, int ballY) {
+        this.ballX = ballX;
+        this.ballY = ballY;
     }
 
     public void move() {
-        x += xSpeed;
-        y += ySpeed;
+        ballX += xSpeed;
+        ballY += ySpeed;
     }
 
     public void draw(Graphics g) {
         g.setColor(Color.WHITE);
-        g.fillOval(x,y,diameter,diameter);
+        g.fillOval(ballX, ballY,diameter,diameter);
     }
 
     public void checkPaddleCollision(Paddle paddle) {
-        if(x + diameter > paddle.getX() && x < paddle.getX() + paddle.getWidth() && y + diameter > paddle.getY() && y < paddle.getY() + paddle.getHeight()) {
+        if(ballX + diameter > paddle.getPaddleXPos() && ballX < paddle.getPaddleXPos() + paddle.getWidth() && ballY + diameter > paddle.getPaddleYPos() && ballY < paddle.getPaddleYPos() + paddle.getHeight()) {
             xSpeed = -xSpeed;
         }
     }
 
     public void checkWallCollision(int screenHeight) {
-        if (y <= 0 || y + diameter >= screenHeight) {
+        if (ballY <= 0 || ballY + diameter >= screenHeight) {
             ySpeed = -ySpeed;
         }
     }
 
-    public int getX() {
-        return x;
+    public int getBallX() {
+        return ballX;
     }
 
-    public int getY() {
-        return y;
+    public int getBallY() {
+        return ballY;
     }
 
     public int getDiameter() {
         return diameter;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void setBallX(int ballX) {
+        this.ballX = ballX;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public void setBallY(int ballY) {
+        this.ballY = ballY;
     }
 }
