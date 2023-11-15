@@ -52,8 +52,8 @@ public class PongGame extends JPanel {
                 updatePvCPaddle();
                 handleBallOffScreen();
                 ball.move();
-                ball.checkPaddleCollision(paddleRight);
                 ball.checkPaddleCollision(computerPaddle);
+                ball.checkPaddleCollision(paddleRight);
                 ball.checkWallCollision(getHeight());
                 repaint();
             }
@@ -72,11 +72,15 @@ public class PongGame extends JPanel {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_W:
                 case KeyEvent.VK_S:
-                    paddleLeft.keyPressed(e.getKeyCode());
+                    if (paddleLeft != null) {
+                        paddleLeft.keyPressed(e.getKeyCode());
+                    }
                     break;
                 case KeyEvent.VK_UP:
                 case KeyEvent.VK_DOWN:
-                    paddleRight.keyPressed(e.getKeyCode());
+                    if (gameState == PVP_STATE || gameState == PVC_STATE) {
+                        paddleRight.keyPressed(e.getKeyCode());
+                    }
                     break;
             }
         }
@@ -84,15 +88,18 @@ public class PongGame extends JPanel {
     }
 
     private void handleKeyRelease(KeyEvent e) {
-        // Handle key release during the game
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W:
             case KeyEvent.VK_S:
-                paddleLeft.keyReleased(e.getKeyCode());
+                if (paddleLeft != null) {
+                    paddleLeft.keyReleased(e.getKeyCode());
+                }
                 break;
             case KeyEvent.VK_UP:
             case KeyEvent.VK_DOWN:
-                paddleRight.keyReleased(e.getKeyCode());
+                if (gameState == PVP_STATE || gameState == PVC_STATE) {
+                    paddleRight.keyReleased(e.getKeyCode());
+                }
                 break;
         }
         repaint();
@@ -104,9 +111,11 @@ public class PongGame extends JPanel {
     }
 
     private void updatePvCPaddle() {
+        paddleRight.update();
         if(computerPaddle != null) {
             computerPaddle.updateForComputer(ball.getY());
         }
+
     }
 
     private void handleBallOffScreen() {
@@ -137,8 +146,8 @@ public class PongGame extends JPanel {
     }
 
     private void startGamePvC() {
-        paddleLeft = new Paddle(14,240);
-        computerPaddle = new Paddle(20, getHeight() / 2 - 80/2);
+        computerPaddle = new Paddle(14, getHeight() / 2 - 80/2);
+        paddleRight = new Paddle(760,240);
         ball = new Ball(400,300);
         gameState = PVC_STATE;
         repaint();
@@ -157,21 +166,19 @@ public class PongGame extends JPanel {
             ball.draw(g);
         } else if (gameState == PVC_STATE) {
             drawGameScreen(g);
-            paddleLeft.draw(g);
             computerPaddle.draw(g);
+            paddleRight.draw(g);
             ball.draw(g);
         }
     }
 
     private void drawTitleScreen(Graphics g) {
-        drawGameScreen(g);  // Draw the basic game screen
+        drawGameScreen(g);
 
-        // Draw the title text
         g.setColor(Color.WHITE);
         g.setFont(new Font("Monospaced", Font.PLAIN, 40));
         g.drawString("Pong", 340, 100);
 
-        // Draw instructions
         g.setFont(new Font("Monospaced", Font.PLAIN, 20));
         g.drawString("Press Spacebar for PvP", 280, 200);
         g.drawString("Press Enter for PvC", 290, 250);
@@ -190,10 +197,6 @@ public class PongGame extends JPanel {
 
         g2d.setStroke(new BasicStroke(3.0f));
         g2d.drawLine(getWidth()/2, 0, getWidth()/2, getHeight());
-
-//        paddleLeft.draw(g);
-//        paddleRight.draw(g);
-//        ball.draw(g);
 
         g.setFont(new Font("Monospaced", Font.PLAIN, 40));
         g.setColor(Color.WHITE);
