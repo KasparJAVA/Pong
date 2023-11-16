@@ -176,12 +176,49 @@ public class PongGame extends JPanel {
         drawGameScreen(g);
 
         g.setColor(Color.WHITE);
-        g.setFont(new Font("Monospaced", Font.PLAIN, 40));
-        g.drawString("Pong", 340, 100);
+        g.setFont(new Font("Arial", Font.PLAIN, 20));
+        g.drawString("██████╗ ", 110,140);
+        g.drawString("██╔══██╗", 110,164);
+        g.drawString("██████╔╝", 110,188);
+        g.drawString("██╔═══╝ ", 110,212);
+        g.drawString("██║", 110,236);
+        g.drawString("╚═╝", 110,260);
 
+        g.drawString("   ██████╗ ", 250,140);
+        g.drawString("██╔═══██╗", 250,164);
+        g.drawString("██║       ██║", 250,188);
+        g.drawString("██║       ██║", 250,212);
+        g.drawString("╚██████╔╝", 250,236);
+        g.drawString("  ╚═════╝ ", 250,260);
+
+        g.drawString("███╗       ██╗", 410,140);
+        g.drawString("████╗", 410,164);
+        g.drawString("██║", 508,164);
+        g.drawString("██╔██╗", 410,188);
+        g.drawString("██║", 508,188);
+        g.drawString("██║╚██╗██║", 410,212);
+        g.drawString("██║", 410,236);
+        g.drawString("╚████║", 466,236);
+        g.drawString("╚═╝", 410,260);
+        g.drawString("╚═══╝", 480,260);
+
+        g.drawString("  ██████╗ ", 577,140);
+        g.drawString("██╔════╝ ", 575,164);
+        g.drawString("██║", 575,188);
+        g.drawString("    ███╗", 622,188);
+        g.drawString("██║", 575,212);
+        g.drawString("      ██║", 624,212);
+        g.drawString("╚██████╔╝", 576,236);
+        g.drawString("  ╚═════╝ ", 578,260);
+
+        g.setColor(Color.WHITE);
         g.setFont(new Font("Monospaced", Font.PLAIN, 20));
-        g.drawString("Press Spacebar for PvP", 280, 200);
-        g.drawString("Press Enter for PvC", 290, 250);
+        g.drawString("↑", 585, 420);
+        g.drawString("↓", 585, 450);
+        g.drawString("Press Spacebar for PvP", 460, 500);
+        g.drawString("\"W\"", 176, 420);
+        g.drawString("\"S\"", 176, 450);
+        g.drawString("Press Enter for PvC", 80, 500);
     }
 
     private void drawGameScreen(Graphics g) {
@@ -201,7 +238,9 @@ public class PongGame extends JPanel {
         g.setFont(new Font("Monospaced", Font.PLAIN, 40));
         g.setColor(Color.WHITE);
         g.drawString(String.valueOf(playerLeftScore),405,45);
-        g.drawString(String.valueOf(playerRightScore),355, 45);
+        String rightPlayerScore = String.valueOf(playerRightScore);
+        g.drawString(rightPlayerScore, 355 - 23 * (rightPlayerScore.length() - 1), 45);
+//        g.drawString(String.valueOf(playerRightScore),355, 45);
     }
 
     public static void main(String[] args) {
